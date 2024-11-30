@@ -87,8 +87,8 @@ async def schedule_auto_delete(client, chat_id, message_id, delay):
             phdlust_tasks.delete_one({"chat_id": chat_id, "message_id": message_id})  # Remove from DB
             
             # Send a notification about the deletion
-            notification_text = DELETE_INFORM
-            notification_msg = await client.send_message(chat_id, notification_text)
+            #notification_text = DELETE_INFORM
+            #notification_msg = await client.send_message(chat_id, notification_text)
             
             # Schedule deletion of the notification after 60 seconds
             asyncio.create_task(delete_notification(client, chat_id, notification_msg.id, 40))
