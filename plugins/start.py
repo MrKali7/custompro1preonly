@@ -91,7 +91,7 @@ async def schedule_auto_delete(client, chat_id, message_id, delay):
             #notification_msg = await client.send_message(chat_id, notification_text)
             
             # Schedule deletion of the notification after 60 seconds
-            asyncio.create_task(delete_notification(client, chat_id, notification_msg.id, 40))
+            #asyncio.create_task(delete_notification(client, chat_id, notification_msg.id, 40))
         
         except Exception as e:
             print(f"Error deleting message {message_id} in chat {chat_id}: {e}")
