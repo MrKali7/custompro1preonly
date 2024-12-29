@@ -66,9 +66,23 @@ async def remove_premium(bot: Bot, message: Message):
     except Exception as e:
         await message.reply(f"Error: {str(e)}")
 
-@Bot.on_message(filters.command('myplan') & filters.private)
-async def my_plan(bot: Bot, message: Message):
-    is_premium, expiry_time = await get_user_subscription(message.from_user.id)
+
+#-----------
+
+
+# Function for handling /myplan command
+@Client.on_message(filters.command('myplan') & filters.private)
+async def my_plan(bot: Client, message: Message):
+    await handle_my_plan(bot, message.from_user.id, message)
+
+# Function for handling button callback
+@Client.on_callback_query(filters.regex(r'^my_plan$'))
+async def my_plan_callback(bot: Client, callback_query: CallbackQuery):
+    await handle_my_plan(bot, callback_query.from_user.id, callback_query.message)
+
+# Shared logic for /myplan and callback
+async def handle_my_plan(bot: Client, user_id: int, message: Message):
+    is_premium, expiry_time = await get_user_subscription(user_id)
     
     if is_premium and expiry_time:
         time_left = int(expiry_time - time.time())
@@ -120,6 +134,10 @@ async def my_plan(bot: Bot, message: Message):
 
     await message.reply_text(response_text, reply_markup=buttons)
 
+
+
+
+#-----------
 
 # Command to show subscription plans
 @Bot.on_message(filters.command('plans') & filters.private)
