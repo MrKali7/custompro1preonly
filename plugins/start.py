@@ -207,8 +207,8 @@ async def start_command(client: Client, message: Message):
         elif verify_status['is_verified'] or premium_status:
             reply_markup = InlineKeyboardMarkup(
                 [
-                    [InlineKeyboardButton("😎About Me", callback_data="about"), InlineKeyboardButton("🔒Close", callback_data="close")],
-                    [InlineKeyboardButton("✨ Premium", callback_data="upi_info")]
+                    [InlineKeyboardButton("😎About Me", callback_data="about"),  InlineKeyboardButton("⚡My plan", callback_data="my_plan")],
+                    [InlineKeyboardButton("✨ Premium", callback_data="upi_info"),  InlineKeyboardButton("🔒Close", callback_data="close")]
                 ]
             )
             welcome_message = await message.reply_text(
@@ -224,18 +224,14 @@ async def start_command(client: Client, message: Message):
                 quote=True
             )
         else:
-            verify_status = await get_verify_status(id)
-            if IS_VERIFY and not verify_status['is_verified']:
-                token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-                await update_verify_status(id, verify_token=token, link="")
-                link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://telegram.dog/{client.username}?start=verify_{token}')
+            premium_status = await is_premium_user(id)
+            if IS_VERIFY and not verify_status['is_verified'] or premium_status:
                 buttons = [
-                    [InlineKeyboardButton("⚡ 𝐕𝐞𝐫𝐢𝐟𝐲 ⚡", url=link)],
-                    [InlineKeyboardButton("💡 𝐇𝐨𝐰 𝐓𝐨 𝐕𝐞𝐫𝐢𝐟𝐲 💡", url=TUT_VID)],
+                    [InlineKeyboardButton("⚡ My Plan ⚡", callback_data="my_plan")],
                     [InlineKeyboardButton("💳 𝑮̲̅𝒆̲̅𝒕̲̅ 𝑷̲̅𝒂̲̅𝒊̲̅𝒅̲̅ 𝑺̲̅𝒖̲̅𝒃̲̅𝒔̲̅𝒄̲̅𝒓̲̅𝒊̲̅𝒑̲̅𝒕̲̅𝒊̲̅𝒐̲̅𝒏̲̅ 💳", callback_data="upi_info")]
                 ]
                 verification_message = await message.reply(
-                    f"<b>Your Ads token is expired, refresh your token and try again.\n\nToken Timeout: {get_exp_time(VERIFY_EXPIRE)}\n\nWhat is the token?\n\nThis is an ads token. If you pass 1 ad, you can use the bot for 24 Hour after passing the ad.</b>",
+                    f"<b>Your Subscription is expired, Get premium plan and try again.</b>",
                     reply_markup=InlineKeyboardMarkup(buttons),
                     protect_content=PROTECT_CONTENT,
                     quote=True
