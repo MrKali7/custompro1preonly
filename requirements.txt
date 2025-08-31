@@ -3,6 +3,7 @@
 pyrogram
 TgCrypto
 pyromod
+dotenv
 # --- For-Database ------------ #
 pymongo
 motor
