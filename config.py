@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 load_dotenv(".env")
 
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "6748708552:AAEya6awWsko7j1GkCjPWjk")
-APP_ID = int(os.environ.get("APP_ID", "21863401"))
-API_HASH = os.environ.get("API_HASH", "5f7d3dc656c008c70bffdf7f4f9b8ebb")
+APP_ID = int(os.environ.get("APP_ID", ""))
+API_HASH = os.environ.get("API_HASH", "")
  
 BAN = int(os.environ.get("BAN", "0")) #Owner user id - dont chnge 
 OWNER = os.environ.get("OWNER", "Owner") #Owner username
